@@ -31,6 +31,7 @@
             grpSensorCount = new GroupBox();
             numSensorCount = new NumericUpDown();
             grpSensors = new GroupBox();
+            btnSaveSettings = new Button();
             grpSensorCount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numSensorCount).BeginInit();
             SuspendLayout();
@@ -65,6 +66,15 @@
             grpSensors.TabStop = false;
             grpSensors.Text = "Sensors";
             // 
+            // btnSaveSettings
+            // 
+            btnSaveSettings.Location = new Point(158, 34);
+            btnSaveSettings.Name = "btnSaveSettings";
+            btnSaveSettings.Size = new Size(75, 23);
+            btnSaveSettings.TabIndex = 2;
+            btnSaveSettings.Text = "Save Settings";
+            btnSaveSettings.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -72,10 +82,12 @@
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(792, 407);
+            Controls.Add(btnSaveSettings);
             Controls.Add(grpSensors);
             Controls.Add(grpSensorCount);
             Name = "MainForm";
             Text = "Silence Sensor";
+            Load += MainForm_Load;
             grpSensorCount.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numSensorCount).EndInit();
             ResumeLayout(false);
@@ -87,5 +99,6 @@
         private GroupBox grpSensorCount;
         private NumericUpDown numSensorCount;
         private GroupBox grpSensors;
+        private Button btnSaveSettings;
     }
 }

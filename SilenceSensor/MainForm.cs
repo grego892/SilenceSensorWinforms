@@ -1,7 +1,10 @@
+using NAudio.CoreAudioApi;
+
 namespace SilenceSensor
 {
     public partial class MainForm : Form
     {
+        private MMDeviceCollection? devices;
         public MainForm()
         {
             InitializeComponent();
@@ -9,11 +12,19 @@ namespace SilenceSensor
 
             // Set padding for grpSensors
             grpSensors.Padding = new Padding(10); // Adjust the padding value as needed
+            LoadAudioDevices();
+        }
+
+        private void LoadAudioDevices()
+        {
+            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
+            devices = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
         }
 
         private void NumSensorCount_ValueChanged(object sender, EventArgs e)
         {
             CreateSensorGroupBoxes((int)numSensorCount.Value);
+            OnSensorCountChanged((int)numSensorCount.Value);
         }
 
         private void CreateSensorGroupBoxes(int count)
@@ -22,7 +33,7 @@ namespace SilenceSensor
             grpSensors.Controls.Clear();
 
             // Define margin between group boxes
-            int margin = 10;
+            int margin = 25;
             int maxPerRow = 3; // Maximum number of GroupBoxes per row
 
             for (int i = 0; i < count; i++)
@@ -31,7 +42,7 @@ namespace SilenceSensor
                 {
                     Text = $"Sensor {i + 1}",
                     Width = 240, // Increased width to accommodate the wider TextBox
-                    Height = 100,
+                    Height = 120,
                     Top = (i / maxPerRow) * (100 + margin),
                     Left = (i % maxPerRow) * (240 + margin) // Adjusted for new width
                 };
@@ -55,10 +66,50 @@ namespace SilenceSensor
                 };
                 groupBox.Controls.Add(textBox);
 
+                ComboBox comboBox = new ComboBox
+                {
+                    Top = 50,
+                    Left = 10,
+                    Width = 220,
+                    DisplayMember = "FriendlyName",
+                };
+                foreach (var device in devices)
+                {
+                    comboBox.Items.Add(device);
+                }
+                groupBox.Controls.Add(comboBox);
+
+                NAudio.Gui.VolumeMeter  volumeMeter = new NAudio.Gui.VolumeMeter
+                {
+                    Top = 55,
+                    Left = 10,
+                    Width = 220,
+                    Height = 40
+                };
+                groupBox.Controls.Add(volumeMeter);
+
                 // Add the new group box to grpSensors
                 grpSensors.Controls.Add(groupBox);
             }
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            MessageBox.Show($"Sensor count changed to: {Properties.Settings.Default.numSensorCount}");
+
+            numSensorCount.Value = Properties.Settings.Default.numSensorCount;
+            CreateSensorGroupBoxes((int)numSensorCount.Value);
+        }
+        private void OnSensorCountChanged(int newCount)
+        {
+            Properties.Settings.Default.numSensorCount = newCount;
+            Properties.Settings.Default.Save();
+        }
+        private void SaveSettings()
+        {
+
+           Properties.Settings.Default.Save();
+        }}
     }
 }
 
