@@ -28,21 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBox1 = new GroupBox();
+            grpSensorCount = new GroupBox();
             numSensorCount = new NumericUpDown();
-            groupBox1.SuspendLayout();
+            grpSensors = new GroupBox();
+            grpSensorCount.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numSensorCount).BeginInit();
             SuspendLayout();
             // 
-            // groupBox1
+            // grpSensorCount
             // 
-            groupBox1.Controls.Add(numSensorCount);
-            groupBox1.Location = new Point(12, 12);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(81, 57);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Sensors";
+            grpSensorCount.Controls.Add(numSensorCount);
+            grpSensorCount.Location = new Point(12, 12);
+            grpSensorCount.Name = "grpSensorCount";
+            grpSensorCount.Size = new Size(123, 57);
+            grpSensorCount.TabIndex = 0;
+            grpSensorCount.TabStop = false;
+            grpSensorCount.Text = "Amount of Sensors";
             // 
             // numSensorCount
             // 
@@ -51,22 +52,40 @@
             numSensorCount.Size = new Size(53, 23);
             numSensorCount.TabIndex = 0;
             // 
+            // grpSensors
+            // 
+            grpSensors.AutoSize = true;
+            grpSensors.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            grpSensors.Location = new Point(12, 75);
+            grpSensors.Margin = new Padding(3, 300, 3, 3);
+            grpSensors.MinimumSize = new Size(200, 100);
+            grpSensors.Name = "grpSensors";
+            grpSensors.Size = new Size(200, 100);
+            grpSensors.TabIndex = 1;
+            grpSensors.TabStop = false;
+            grpSensors.Text = "Sensors";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(groupBox1);
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            ClientSize = new Size(792, 407);
+            Controls.Add(grpSensors);
+            Controls.Add(grpSensorCount);
             Name = "MainForm";
             Text = "Silence Sensor";
-            groupBox1.ResumeLayout(false);
+            grpSensorCount.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numSensorCount).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private GroupBox groupBox1;
+        private GroupBox grpSensorCount;
         private NumericUpDown numSensorCount;
+        private GroupBox grpSensors;
     }
 }
