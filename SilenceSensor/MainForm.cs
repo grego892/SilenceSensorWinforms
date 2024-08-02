@@ -17,14 +17,17 @@ namespace SilenceSensor
 
         private void LoadAudioDevices()
         {
-            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
-            devices = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
+            using (MMDeviceEnumerator enumerator = new MMDeviceEnumerator())
+            {
+                devices = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
+            }
         }
 
         private void NumSensorCount_ValueChanged(object sender, EventArgs e)
         {
-            CreateSensorGroupBoxes((int)numSensorCount.Value);
-            OnSensorCountChanged((int)numSensorCount.Value);
+            int sensorCount = (int)numSensorCount.Value;
+            CreateSensorGroupBoxes(sensorCount);
+            OnSensorCountChanged(sensorCount);
         }
 
         private void CreateSensorGroupBoxes(int count)
@@ -33,8 +36,8 @@ namespace SilenceSensor
             grpSensors.Controls.Clear();
 
             // Define margin between group boxes
-            int margin = 25;
-            int maxPerRow = 3; // Maximum number of GroupBoxes per row
+            const int margin = 25;
+            const int maxPerRow = 3; // Maximum number of GroupBoxes per row
 
             for (int i = 0; i < count; i++)
             {
@@ -73,18 +76,21 @@ namespace SilenceSensor
                     Width = 220,
                     DisplayMember = "FriendlyName",
                 };
-                foreach (var device in devices)
+                if (devices != null)
                 {
-                    comboBox.Items.Add(device);
+                    foreach (var device in devices)
+                    {
+                        comboBox.Items.Add(device);
+                    }
                 }
                 groupBox.Controls.Add(comboBox);
 
-                NAudio.Gui.VolumeMeter  volumeMeter = new NAudio.Gui.VolumeMeter
+                NAudio.Gui.VolumeMeter volumeMeter = new NAudio.Gui.VolumeMeter
                 {
-                    Top = 55,
+                    Top = 80,
                     Left = 10,
                     Width = 220,
-                    Height = 40
+                    Height = 30
                 };
                 groupBox.Controls.Add(volumeMeter);
 
@@ -95,21 +101,24 @@ namespace SilenceSensor
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MessageBox.Show($"Sensor count changed to: {Properties.Settings.Default.numSensorCount}");
-
             numSensorCount.Value = Properties.Settings.Default.numSensorCount;
             CreateSensorGroupBoxes((int)numSensorCount.Value);
         }
+
         private void OnSensorCountChanged(int newCount)
         {
             Properties.Settings.Default.numSensorCount = newCount;
             Properties.Settings.Default.Save();
         }
+
+        private void btnSaveSettings_Click(object sender, EventArgs e)
+        {
+            SaveSettings();
+        }
+
         private void SaveSettings()
         {
-
-           Properties.Settings.Default.Save();
-        }}
+            Properties.Settings.Default.Save();
+        }
     }
 }
-

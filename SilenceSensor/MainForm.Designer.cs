@@ -74,6 +74,7 @@
             btnSaveSettings.TabIndex = 2;
             btnSaveSettings.Text = "Save Settings";
             btnSaveSettings.UseVisualStyleBackColor = true;
+            btnSaveSettings.Click += btnSaveSettings_Click;
             // 
             // MainForm
             // 
