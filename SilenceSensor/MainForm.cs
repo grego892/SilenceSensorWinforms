@@ -30,10 +30,10 @@ namespace SilenceSensor
                 GroupBox groupBox = new GroupBox
                 {
                     Text = $"Sensor {i + 1}",
-                    Width = 200,
+                    Width = 240, // Increased width to accommodate the wider TextBox
                     Height = 100,
                     Top = (i / maxPerRow) * (100 + margin),
-                    Left = (i % maxPerRow) * (200 + margin)
+                    Left = (i % maxPerRow) * (240 + margin) // Adjusted for new width
                 };
 
                 // Create and add a Label
@@ -46,12 +46,12 @@ namespace SilenceSensor
                 };
                 groupBox.Controls.Add(label);
 
-                // Create and add a TextBox
+                // Create and add a TextBox with increased width
                 TextBox textBox = new TextBox
                 {
                     Top = 20,
                     Left = 100,
-                    Width = 80
+                    Width = 120 // Increased width
                 };
                 groupBox.Controls.Add(textBox);
 
